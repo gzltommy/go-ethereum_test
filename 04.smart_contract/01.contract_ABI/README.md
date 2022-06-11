@@ -55,10 +55,8 @@ Solc 在 Ubuntu 上有 snapcraft 包。
 
 
 ## 最终
-> sudo solc --abi ERC20.sol --pretty-json >ERC20_sol.abi
->
-> sudo solc --bin ERC20.sol >ERC20_sol.bin
->
+> sudo solc --abi --bin ERC20.sol  -o ./  --overwrite
+> 
 > abigen --bin=ERC20_sol.bin --abi=ERC20_sol.abi --pkg=erc20 --out=ERC20.go
 
 
