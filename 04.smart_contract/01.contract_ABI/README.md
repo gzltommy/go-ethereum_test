@@ -24,6 +24,14 @@ Solc 在 Ubuntu 上有 snapcraft 包。
 
 假设您已经在计算机上设置了 Go，只需运行以下命令即可安装 abigen 工具。
 > go get -u github.com/ethereum/go-ethereum
+> 
+> cd $GOPATH/pkg/mod/github.com/ethereum/go-ethereum@v1.10.18
+> 
+> make
+> 
+> make devtools
+
+执行完上述命令后，abigen 工具就被安装到了 $GOPATH/bin 目录下
 
 
 ## 从一个 solidity 文件生成 ABI（json 的，web 端可以用）
