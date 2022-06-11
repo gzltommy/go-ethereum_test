@@ -34,24 +34,13 @@ Solc 在 Ubuntu 上有 snapcraft 包。
 执行完上述命令后，abigen 工具就被安装到了 $GOPATH/bin 目录下
 
 
-## 从一个 solidity 文件生成 ABI（json 的，web 端可以用）
-> sudo solc --abi Store.sol --pretty-json >Store_sol_Store.abi
+## 从一个 solidity 文件生成 ABI 和 bin 文件（json 的，web 端可以用）
+> sudo solc --abi --bin Store.sol -o ./  --overwrite
 
-它会将其写入名为“Store_sol_Store.abi”的文件中，删除文件开头的无用数据
+它会将其写入名为Store.abi、Store.bin 的文件中
 
-## 用 abigen 将 ABI 转换为我们可以导入的 Go 文件
-> abigen --abi=Store_sol_Store.abi --pkg=store --out=Store.go
-
-
-## 将 solidity 智能合约编译为 EVM 字节码
-为了从 Go 部署智能合约，我们还需要将 solidity 智能合约编译为 EVM 字节码。 EVM 字节码将在事务的数据字段中发送。 在 Go 文件上生成部署方法需要bin文件。
-> sudo solc --bin Store.sol >Store_sol_Store.bin
-
-它会将其写入名为“Store_sol_Store.bin”的文件中，删除文件开头的无用数据
-
-## 编译 Go 合约文件
-现在我们编译 Go 合约文件，其中包括 deploy 方法，因为我们包含了 bin 文件。
-> abigen --bin=Store_sol_Store.bin --abi=Store_sol_Store.abi --pkg=store --out=Store.go
+## 用 abigen 将 ABI 和 bin 文件转换为我们可以导入的 Go 文件
+> abigen --abi=Store.abi --bin=Store.bin  --pkg=Store --out=Store.go
 
 
 ## 最终
