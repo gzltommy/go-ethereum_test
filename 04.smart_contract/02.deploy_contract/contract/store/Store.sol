@@ -3,7 +3,7 @@
 */
 pragma solidity =0.8.14;
 
-contract store {
+contract Store {
     event ItemSet(bytes32 key, bytes32 value);
 
     string public version;
