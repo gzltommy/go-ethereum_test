@@ -3,7 +3,7 @@
 */
 
 // SPDX-License-Identifier: MIT
-pragma solidity =0.8.14;
+pragma solidity =0.7.6;
 
 contract Store {
     event ItemSet(bytes32 key, bytes32 value);
