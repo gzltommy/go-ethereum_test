@@ -23,12 +23,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//StructSignExample(privateKey)
-	ArraySignExample(privateKey)
+	//StructSignExample1(privateKey)
+	StructSignExample2(privateKey)
+	//ArraySignExample(privateKey)
 
 }
 
-func StructSignExample(privateKey *ecdsa.PrivateKey) {
+func StructSignExample1(privateKey *ecdsa.PrivateKey) {
 	// 请求参数：
 	typedData := &apitypes.TypedData{
 		Types: apitypes.Types{
@@ -67,6 +68,53 @@ func StructSignExample(privateKey *ecdsa.PrivateKey) {
 			"canTranster":         true,
 		},
 		PrimaryType: "Claim",
+	}
+
+	signature, err := SignWithEip721(privateKey, typedData)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(signature)
+}
+func StructSignExample2(privateKey *ecdsa.PrivateKey) {
+	// 请求参数：
+	typedData := &apitypes.TypedData{
+		Types: apitypes.Types{
+			"EIP712Domain": {
+				{Name: "name", Type: "string"},
+				{Name: "version", Type: "string"},
+				{Name: "chainId", Type: "uint256"},
+				{Name: "verifyingContract", Type: "address"},
+			},
+			"Person": {
+				{Name: "name", Type: "string"},
+				{Name: "wallets", Type: "address"},
+			},
+			"Mail": {
+				{Name: "from", Type: "Person"},
+				{Name: "to", Type: "Person"},
+				{Name: "contents", Type: "string"},
+			},
+		},
+		Domain: apitypes.TypedDataDomain{
+			Name:              "SL",
+			Version:           "1.0.0",
+			ChainId:           math.NewHexOrDecimal256(1),
+			VerifyingContract: "0x0fC5025C764cE34df352757e82f7B5c4Df39A836",
+			Salt:              "",
+		},
+		Message: map[string]interface{}{
+			"contents": "Hello, tommy!",
+			"from": map[string]interface{}{
+				"name":    "tommy",
+				"wallets": "0x111da67948Ef5Ed1f82D707B8cd7e3B1DFa87AEa",
+			},
+			"to": map[string]interface{}{
+				"name":    "zorro",
+				"wallets": "0x211da67948Ef5Ed1f72D707B8cd7e3B1DFa87AEb",
+			},
+		},
+		PrimaryType: "Mail",
 	}
 
 	signature, err := SignWithEip721(privateKey, typedData)
