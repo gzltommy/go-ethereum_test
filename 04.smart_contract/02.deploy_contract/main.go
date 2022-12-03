@@ -70,6 +70,6 @@ func main() {
 
 	fmt.Println(address.Hex())   // 0x3f6c4f9FDd3AAdfE545D45221477A1F553404Ae5
 	fmt.Println(tx.Hash().Hex()) // 0x7530e697016d11e7683381e791091967d1f76f9ad96e186546aa5fc53f7338c6
-	// 你可以用事务哈希来在Etherscan上查询合约的部署状态 https://kovan.etherscan.io/tx/0x7530e697016d11e7683381e791091967d1f76f9ad96e186546aa5fc53f7338c6
+	// 你可以用事务哈希来在 Etherscan 上查询合约的部署状态 https://kovan.etherscan.io/tx/0x7530e697016d11e7683381e791091967d1f76f9ad96e186546aa5fc53f7338c6
 	_ = instance
 }

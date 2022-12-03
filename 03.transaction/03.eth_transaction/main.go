@@ -31,9 +31,9 @@ func main() {
 	}
 
 	/*
-		2.之后我们需要获得帐户的随机数(nonce)。 每笔交易都需要一个nonce。 根据定义，nonce是仅使用一次的数字。 如果是发送交易的新帐户，
-		则该随机数将为“0”。 来自帐户的每个新事务都必须具有前一个nonce增加1的nonce。很难对所有nonce进行手动跟踪，
-		于是ethereum客户端提供一个帮助方法PendingNonceAt，它将返回你应该使用的下一个nonce。
+		2.之后我们需要获得帐户的随机数(nonce)。 每笔交易都需要一个 nonce。 根据定义，nonce 是仅使用一次的数字。 如果是发送交易的新帐户，
+		则该随机数将为 “0”。 来自帐户的每个新事务都必须具有前一个 nonce 增加 1 的 nonce。很难对所有 nonce 进行手动跟踪，
+		于是 ethereum 客户端提供一个帮助方法 PendingNonceAt，它将返回你应该使用的下一个 nonce。
 	*/
 	// 发送的帐户的公共地址 - 这个我们可以从私钥派生。
 	publicKey := privateKey.Public()
@@ -66,12 +66,20 @@ func main() {
 	}
 
 	/*
-		4.现在我们最终可以通过导入go-ethereumcore/types包并调用NewTransaction来生成我们的未签名以太坊事务，这个函数需要接收 nonce，
-		地址，值，燃气上限值，燃气价格和可选发的数据。 发送ETH的数据字段为“nil”。 在与智能合约进行交互时，我们将使用数据字段，仅仅转账以太币是不需要数据字段的。
+		4.现在我们最终可以通过导入 go-ethereumcore/types 包并调用 NewTransaction 来生成我们的未签名以太坊事务，这个函数需要接收 nonce，
+		地址，值，燃气上限值，燃气价格和可选发的数据。 发送 ETH 的数据字段为 “nil”。 在与智能合约进行交互时，我们将使用数据字段，仅仅转账以太币是不需要数据字段的。
 	*/
 	toAddress := common.HexToAddress("0x4bDA26282Cd8D7E5B5253e339d9E7906B039b2e6")
 	var data []byte
-	tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, data)
+	//tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, data)
+	tx := types.NewTx(&types.LegacyTx{
+		Nonce:    nonce,
+		To:       &toAddress,
+		Value:    value,
+		Gas:      gasLimit,
+		GasPrice: gasPrice,
+		Data:     data,
+	})
 
 	chainID, err := client.NetworkID(context.Background())
 	if err != nil {
@@ -87,7 +95,7 @@ func main() {
 	}
 
 	/*
-		6.最后通过在客户端上调用“SendTransaction”来将已签名的事务广播到整个网络。
+		6.最后通过在客户端上调用 “SendTransaction” 来将已签名的事务广播到整个网络。
 	*/
 	err = client.SendTransaction(context.Background(), signedTx)
 	if err != nil {

@@ -16,7 +16,7 @@ var (
 )
 
 func main() {
-	// 1. 设置订阅以便在新区块被开采时获取事件。首先，我们需要一个支持 websocket RPC 的以太坊服务提供者。在示例中，我们将使用infura 的websocket端点。
+	// 1. 设置订阅以便在新区块被开采时获取事件。首先，我们需要一个支持 websocket RPC 的以太坊服务提供者。在示例中，我们将使用 infura 的 websocket 端点。
 	client, err := ethclient.Dial(fmt.Sprintf("wss://%s.infura.io/ws/v3/%s", netWork, projectID))
 	if err != nil {
 		log.Fatal("-1--", err)
