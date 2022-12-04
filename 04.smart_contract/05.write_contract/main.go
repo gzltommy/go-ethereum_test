@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	netWork   = "kovan"
+	netWork   = "goerli"
 	projectID = "b2c8412b5acc4138a27f524ee4d6d18f"
 )
 
@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// 1.加载您的私钥。写入智能合约需要我们用私钥来对交易事务进行签名。
-	privateKey, err := crypto.HexToECDSA("debe1d34d97ad7ad00d4eaff4c291c9261a11c7f9432b867d7a987f698bbc33b")
+	privateKey, err := crypto.HexToECDSA("6cdd2cd6a8f813c33ac0c59a92798da9c0e490e17da96fbb9dc86fd1e77d23e2")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -85,7 +85,7 @@ func main() {
 	}
 
 	fmt.Printf("tx sent: %s", tx.Hash().Hex()) // tx sent: 0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
-	// 你可以用事务哈希来在Etherscan上查询合约的部署状态 https://kovan.etherscan.io/tx/0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
+	// 你可以用事务哈希来在Etherscan上查询合约的部署状态 https://goerli.etherscan.io/tx/0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
 
 	result, err := instance.Items(nil, key)
 	if err != nil {

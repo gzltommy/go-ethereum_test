@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	netWork   = "kovan"
+	netWork   = "goerli"
 	projectID = "b2c8412b5acc4138a27f524ee4d6d18f"
 )
 
@@ -27,7 +27,7 @@ func main() {
 	}
 
 	// 1.加载您的私钥
-	privateKey, err := crypto.HexToECDSA("debe1d34d97ad7ad00d4eaff4c291c9261a11c7f9432b867d7a987f698bbc33b")
+	privateKey, err := crypto.HexToECDSA("6cdd2cd6a8f813c33ac0c59a92798da9c0e490e17da96fbb9dc86fd1e77d23e2")
 	if err != nil {
 		log.Fatal(err)
 	}

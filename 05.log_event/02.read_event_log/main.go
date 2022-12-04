@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	netWork   = "kovan"
+	netWork   = "goerli"
 	projectID = "b2c8412b5acc4138a27f524ee4d6d18f"
 )
 
