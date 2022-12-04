@@ -10,20 +10,22 @@ import (
 	"log"
 )
 
+// 测试使用 BNB 的测试网络，节点使用 nodereal 免费的服务
 var (
-	netWork   = "goerli"
-	projectID = "b2c8412b5acc4138a27f524ee4d6d18f"
+	//baseUrl = "https://bsc-testnet.nodereal.io/v1"
+	baseUrl = "wss://bsc-testnet.nodereal.io/ws/v1"
+	apiKey  = "307ba8bef61741ea996267d48bdfcf62"
 )
 
 func main() {
 	// 拨打启用 websocket 的以太坊客户端
-	client, err := ethclient.Dial(fmt.Sprintf("wss://%s.infura.io/ws/v3/%s", netWork, projectID))
+	client, err := ethclient.Dial(fmt.Sprintf("%s/%s", baseUrl, apiKey))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// 合约地址
-	contractAddress := common.HexToAddress("0x3f6c4f9FDd3AAdfE545D45221477A1F553404Ae5")
+	// 合约地址(投票的合约，用于测试，可投票到 2099 年)
+	contractAddress := common.HexToAddress("0x5102150D38D1c3443DD3522B344A39989282cad7")
 
 	// 创建需要监听的筛选查询
 	query := ethereum.FilterQuery{

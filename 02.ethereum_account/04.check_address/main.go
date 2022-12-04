@@ -21,7 +21,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 0x Protocol Token (ZRX) smart contract address
+	// 0x Protocol Token (ZRX) smart 00.contract address
 	address := common.HexToAddress("0xe41d2489571d322189246dafa5ebde1f4699f498")
 	bytecode, err := client.CodeAt(context.Background(), address, nil) // nil is latest block
 	if err != nil {
@@ -30,7 +30,7 @@ func main() {
 
 	isContract := len(bytecode) > 0
 
-	fmt.Printf("is contract: %v\n", isContract) // is contract: true
+	fmt.Printf("is 00.contract: %v\n", isContract) // is 00.contract: true
 
 	// a random user account address
 	address = common.HexToAddress("0x8e215d06ea7ec1fdb4fc5fd21768f4b34ee92ef4")
@@ -41,5 +41,5 @@ func main() {
 
 	isContract = len(bytecode) > 0
 
-	fmt.Printf("is contract: %v\n", isContract) // is contract: false
+	fmt.Printf("is 00.contract: %v\n", isContract) // is 00.contract: false
 }

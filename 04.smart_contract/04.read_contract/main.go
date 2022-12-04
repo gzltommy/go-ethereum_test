@@ -28,7 +28,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("contract is loaded")
+	fmt.Println("00.contract is loaded")
 
 	// 使用合约实例提供的方法来阅读智能合约。
 

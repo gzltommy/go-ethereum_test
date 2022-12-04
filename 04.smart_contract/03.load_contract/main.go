@@ -28,6 +28,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("contract is loaded")
+	fmt.Println("00.contract is loaded")
 	_ = instance
 }
