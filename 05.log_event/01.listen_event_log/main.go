@@ -24,12 +24,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 合约地址(投票的合约，用于测试，可投票到 2099 年)
-	contractAddress := common.HexToAddress("0x5102150D38D1c3443DD3522B344A39989282cad7")
-
 	// 创建需要监听的筛选查询
 	query := ethereum.FilterQuery{
-		Addresses: []common.Address{contractAddress},
+		Addresses: []common.Address{
+			// 合约地址(投票的合约，用于测试，可投票到 2099 年)
+			common.HexToAddress("0x5102150D38D1c3443DD3522B344A39989282cad7"),
+			// 合约地址(投票的合约，用于测试，可投票到 2099 年)
+			common.HexToAddress("0x5102150D38D1c3443DD3522B344A39989282cad7"),
+		},
 	}
 
 	logs := make(chan types.Log)
