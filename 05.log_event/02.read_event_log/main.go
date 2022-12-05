@@ -60,7 +60,11 @@ func main() {
 			Key   [32]byte
 			Value [32]byte
 		}{}
-		err := contractAbi.UnpackIntoInterface(&event, "ItemSet", vLog.Data) // 解码日志的数据字段
+		err := contractAbi.UnpackIntoInterface(
+			&event,    // 接收解码数据变量的指针
+			"ItemSet", // 事件名称
+			vLog.Data, // 解码日志的数据字段
+		)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -70,7 +74,7 @@ func main() {
 
 		// 读取日志结构体中的 topics
 		// 若您的 solidity 事件包含 indexed 事件类型，那么它们将成为主题而不是日志的数据属性的一部分。
-		// 在 solidity 中您最多只能有 4 个主题，但只有 3 个可索引的事件类型。第一个主题总是事件的签名。
+		// 在 solidity 中您最多只能有 4 个主题，但只有 3 个可索引的事件类型，第一个主题总是事件的签名(签名：就是函数签名的意思)的 hash 值。
 		// 我们的示例合约不包含可索引的事件
 		var topics [4]string
 		for i := range vLog.Topics {
@@ -81,7 +85,7 @@ func main() {
 	}
 
 	// 正如您所见，首个主题只是被哈希过的事件签名
-	eventSignature := []byte("ItemSet(bytes32,bytes32)")
+	eventSignature := []byte("ItemSet(bytes32,bytes32)") // ItemSet 事件的签名为：ItemSet(bytes32,bytes32)
 	hash := crypto.Keccak256Hash(eventSignature)
 	fmt.Println(hash.Hex()) // 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4
 }

@@ -2,97 +2,112 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	token "go-ethereum_test/05.log_event/03.read_erc20_event_log/contract"
 	"log"
 	"math/big"
 	"strings"
 )
 
+var (
+	baseUrl = "https://eth-mainnet.nodereal.io/v1"
+	apiKey  = "5a923434cebc49328f7ff537d33fa36f"
+)
+
 func main() {
 	// 注意国内要设置代理才能连接
-	client, err := ethclient.Dial("https://data-seed-prebsc-1-s1.binance.org:8545")
-	//client, err := ethclient.Dial("wss://data-seed-prebsc-1-s1.binance.org:8546")
+	// 初始化以太坊客户端
+	//client, err := ethclient.Dial("https://cloudflare-eth.com")
+	client, err := ethclient.Dial(fmt.Sprintf("%s/%s", baseUrl, apiKey))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// 合约地址
-	contractAddress := common.HexToAddress("0x195c9831a0dac5f33a46f15b5d2fc3c80bf91f3a")
-
-	// 构造一个过滤查询
-	blockHash := common.HexToHash("0x73d7f99b23ea8d3a2ccc5394edca0075260c954bc4f15de61e418553197be26d")
+	// 0x Protocol (ZRX) token address
 	query := ethereum.FilterQuery{
-		BlockHash: &blockHash,
+		FromBlock: big.NewInt(6383820),
+		ToBlock:   big.NewInt(6383840),
 		Addresses: []common.Address{
-			contractAddress,
+			common.HexToAddress("0xe41d2489571d322189246dafa5ebde1f4699f498"),
 		},
 	}
 
-	// 查询将返回所有的匹配事件日志，返回的所有日志将是 ABI 编码的
 	logs, err := client.FilterLogs(context.Background(), query)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	//// 为了解码日志，我们需要导入我们智能合约的 ABI。
-	//contractAbi, err := abi.JSON(strings.NewReader(store.StoreMetaData.ABI)) // 该函数返回一个我们可以在 Go 应用程序中使用的解析过的 ABI 接口
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+	contractAbi, err := abi.JSON(strings.NewReader(token.Erc20MetaData.ABI))
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	fmt.Println(len(logs))
+	logTransferSig := []byte("Transfer(address,address,uint256)")
+	LogApprovalSig := []byte("Approval(address,address,uint256)")
+	logTransferSigHash := crypto.Keccak256Hash(logTransferSig)
+	logApprovalSigHash := crypto.Keccak256Hash(LogApprovalSig)
 
 	for _, vLog := range logs {
-		//// 读取日志结构体中的附件信息（区块摘要，区块号和交易摘要）
-		fmt.Println("BlockHash:", vLog.BlockHash.Hex()) // 0x98576e84c24ba628a41f7f7eb6f24c1fbb74a527995de981a9f54b21cb5ca04e
-		fmt.Println("BlockNumber:", vLog.BlockNumber)   // 32085598
-		fmt.Println("TxHash:", vLog.TxHash.Hex())       // 0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
+		fmt.Printf("Log Block Number: %d\n", vLog.BlockNumber)
+		fmt.Printf("Log Index: %d\n", vLog.Index)
 
-		// 读取日志结构体中的 topics
-		// 若您的 solidity 事件包含 indexed 事件类型，那么它们将成为主题而不是日志的数据属性的一部分。
-		// 在 solidity 中您最多只能有 4 个主题，但只有 3 个可索引的事件类型。第一个主题总是事件的签名。
-		// 我们的示例合约不包含可索引的事件
-		var topics [4]string
-		for i := range vLog.Topics {
-			topics[i] = vLog.Topics[i].Hex()
+		switch vLog.Topics[0].Hex() {
+		case logTransferSigHash.Hex():
+			fmt.Printf("Log Name: Transfer\n")
+
+			var transferEvent LogTransfer
+
+			err := contractAbi.UnpackIntoInterface(&transferEvent, "Transfer", vLog.Data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			transferEvent.From = common.HexToAddress(vLog.Topics[1].Hex())
+			transferEvent.To = common.HexToAddress(vLog.Topics[2].Hex())
+
+			fmt.Printf("From: %s\n", transferEvent.From.Hex())
+			fmt.Printf("To: %s\n", transferEvent.To.Hex())
+			fmt.Printf("Tokens: %s\n", transferEvent.Tokens.String())
+
+		case logApprovalSigHash.Hex():
+			fmt.Printf("Log Name: Approval\n")
+
+			var approvalEvent LogApproval
+
+			err := contractAbi.UnpackIntoInterface(&approvalEvent, "Approval", vLog.Data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			approvalEvent.TokenOwner = common.HexToAddress(vLog.Topics[1].Hex())
+			approvalEvent.Spender = common.HexToAddress(vLog.Topics[2].Hex())
+
+			fmt.Printf("Token Owner: %s\n", approvalEvent.TokenOwner.Hex())
+			fmt.Printf("Spender: %s\n", approvalEvent.Spender.Hex())
+			fmt.Printf("Tokens: %s\n", approvalEvent.Tokens.String())
 		}
 
-		fmt.Println(topics) // 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4
-
-		//tlog, err := logsTransfer(vLog)
-		//if err != nil {
-		//	log.Fatal(err)
-		//}
+		fmt.Printf("\n\n")
 	}
 }
 
-func logsTransfer(vLog types.Log) (TransferLog, error) {
-	var logData TransferLog
-	topicsLen := len(vLog.Topics)
-	var tokenId *big.Int
-	var from, to common.Address
-	if topicsLen < 3 {
-		return logData, errors.New(fmt.Sprintf("error %d < 3", topicsLen))
-	} else {
-		from = common.HexToAddress(vLog.Topics[1].Hex())
-		to = common.HexToAddress(vLog.Topics[2].Hex())
-		tokenId = vLog.Topics[3].Big()
-	}
-	logData.From = strings.ToLower(from.Hex())
-	logData.To = strings.ToLower(to.Hex())
-	logData.Ids = append(logData.Ids, tokenId)
-	logData.Amounts = append(logData.Amounts, big.NewInt(1))
-	return logData, nil
+// 创建与 ERC-20 事件日志签名类型相匹配的结构类型
+
+// LogTransfer ..
+type LogTransfer struct {
+	From   common.Address
+	To     common.Address
+	Tokens *big.Int
 }
 
-type TransferLog struct {
-	From    string
-	To      string
-	Ids     []*big.Int
-	Amounts []*big.Int
+// LogApproval ..
+type LogApproval struct {
+	TokenOwner common.Address
+	Spender    common.Address
+	Tokens     *big.Int
 }
