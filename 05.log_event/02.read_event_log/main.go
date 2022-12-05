@@ -8,6 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	store "go-ethereum_test/05.log_event/02.read_event_log/contract"
 	"log"
 	"math/big"
 	"strings"
@@ -19,8 +20,7 @@ var (
 )
 
 func main() {
-	//// 注意国内要设置代理才能连接
-	//client, err := ethclient.Dial("https://data-seed-prebsc-1-s1.binance.org:8545")
+	// 注意国内要设置代理才能连接
 	// 拨打启用 websocket 的以太坊客户端
 	client, err := ethclient.Dial(fmt.Sprintf("wss://%s.infura.io/ws/v3/%s", netWork, projectID))
 	if err != nil {
