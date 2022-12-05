@@ -29,8 +29,8 @@ func main() {
 		Addresses: []common.Address{
 			// 合约地址(投票的合约，用于测试，可投票到 2099 年)
 			common.HexToAddress("0x5102150D38D1c3443DD3522B344A39989282cad7"),
-			// 合约地址(投票的合约，用于测试，可投票到 2099 年)
-			common.HexToAddress("0x5102150D38D1c3443DD3522B344A39989282cad7"),
+			// 测试网狗的合约
+			common.HexToAddress("0xcc0ec652a675fd8d41e4bf28953ae3f6490f1bd8"),
 		},
 	}
 
