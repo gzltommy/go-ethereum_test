@@ -19,6 +19,22 @@ var (
 	apiKey  = "5a923434cebc49328f7ff537d33fa36f"
 )
 
+// 创建与 ERC-20 事件日志签名类型相匹配的结构类型
+
+// LogTransfer ..
+type LogTransfer struct {
+	From   common.Address
+	To     common.Address
+	Tokens *big.Int
+}
+
+// LogApproval ..
+type LogApproval struct {
+	TokenOwner common.Address
+	Spender    common.Address
+	Tokens     *big.Int
+}
+
 func main() {
 	// 注意国内要设置代理才能连接
 	// 初始化以太坊客户端
@@ -42,7 +58,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	contractAbi, err := abi.JSON(strings.NewReader(token.Erc20MetaData.ABI))
+	contractAbi, err := abi.JSON(strings.NewReader(token.ERC20MetaData.ABI))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -94,20 +110,4 @@ func main() {
 
 		fmt.Printf("\n\n")
 	}
-}
-
-// 创建与 ERC-20 事件日志签名类型相匹配的结构类型
-
-// LogTransfer ..
-type LogTransfer struct {
-	From   common.Address
-	To     common.Address
-	Tokens *big.Int
-}
-
-// LogApproval ..
-type LogApproval struct {
-	TokenOwner common.Address
-	Spender    common.Address
-	Tokens     *big.Int
 }
