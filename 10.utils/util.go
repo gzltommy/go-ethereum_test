@@ -14,9 +14,9 @@ import (
 )
 
 // IsValidAddress 检查地址是否是有效的以太坊地址
-func IsValidAddress(iaddress interface{}) bool {
+func IsValidAddress(iAddress interface{}) bool {
 	re := regexp.MustCompile("^0x[0-9a-fA-F]{40}$")
-	switch v := iaddress.(type) {
+	switch v := iAddress.(type) {
 	case string:
 		return re.MatchString(v)
 	case common.Address:
@@ -27,9 +27,9 @@ func IsValidAddress(iaddress interface{}) bool {
 }
 
 // IsZeroAddress 检查地址是否为零地址
-func IsZeroAddress(iaddress interface{}) bool {
+func IsZeroAddress(iAddress interface{}) bool {
 	var address common.Address
-	switch v := iaddress.(type) {
+	switch v := iAddress.(type) {
 	case string:
 		address = common.HexToAddress(v)
 	case common.Address:
