@@ -74,7 +74,7 @@ func StructSignExample1(privateKey *ecdsa.PrivateKey) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(signature)
+	fmt.Println(hexutil.Encode(signature))
 }
 func StructSignExample2(privateKey *ecdsa.PrivateKey) {
 	// 请求参数：
@@ -121,7 +121,7 @@ func StructSignExample2(privateKey *ecdsa.PrivateKey) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(signature)
+	fmt.Println(hexutil.Encode(signature))
 }
 
 // TODO:无法运行，截止到 2022-12-2 日网络上并没有解决方案
@@ -164,22 +164,22 @@ func ArraySignExample(privateKey *ecdsa.PrivateKey) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(signature)
+	fmt.Println(hexutil.Encode(signature))
 }
 
-func SignWithEip721(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData) (string, error) {
+func SignWithEip721(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData) ([]byte, error) {
 	if privateKey == nil || typedData == nil {
-		return "", errors.New("invalid parameter")
+		return nil, errors.New("invalid parameter")
 	}
 
 	// 1、获取需要签名的数据的 Keccak-256 的哈希
 	domainSeparator, err := typedData.HashStruct("EIP712Domain", typedData.Domain.Map())
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	typedDataHash, err := typedData.HashStruct(typedData.PrimaryType, typedData.Message)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator), string(typedDataHash)))
 	sigHash := crypto.Keccak256(rawData)
@@ -187,12 +187,11 @@ func SignWithEip721(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData)
 	// 2、使用私钥签名哈希，得到签名
 	signature, err := crypto.Sign(sigHash, privateKey)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	if signature[64] < 27 {
 		signature[64] += 27
 	}
 
-	// 3、转换为 16 进制的字符串
-	return hexutil.Encode(signature), nil
+	return signature, nil
 }

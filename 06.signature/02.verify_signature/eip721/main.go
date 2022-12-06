@@ -80,7 +80,7 @@ func main() {
 	address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
 	fmt.Println("-----地址------", address)
 
-	ok, err = VerifyEip721Signature(address, signature, typedData)
+	ok, err = VerifyEip721Signature(address, hexutil.Encode(signature), typedData)
 	if err != nil {
 		log.Fatal("VerifyEip721Signature fail.", err)
 	}
@@ -96,19 +96,19 @@ func VerifyEip721Signature(address, signature string, typedData apitypes.TypedDa
 	return valid, err
 }
 
-func SignWithEip721(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData) (string, error) {
+func SignWithEip721(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData) ([]byte, error) {
 	if privateKey == nil || typedData == nil {
-		return "", errors.New("invalid parameter")
+		return nil, errors.New("invalid parameter")
 	}
 
 	// 1、获取需要签名的数据的 Keccak-256 的哈希
 	domainSeparator, err := typedData.HashStruct("EIP712Domain", typedData.Domain.Map())
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	typedDataHash, err := typedData.HashStruct(typedData.PrimaryType, typedData.Message)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator), string(typedDataHash)))
 	sigHash := crypto.Keccak256(rawData)
@@ -116,12 +116,11 @@ func SignWithEip721(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData)
 	// 2、使用私钥签名哈希，得到签名
 	signature, err := crypto.Sign(sigHash, privateKey)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	if signature[64] < 27 {
 		signature[64] += 27
 	}
 
-	// 3、转换为 16 进制的字符串
-	return hexutil.Encode(signature), nil
+	return signature, nil
 }
