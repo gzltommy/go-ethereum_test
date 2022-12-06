@@ -47,7 +47,7 @@ func main() {
 		fmt.Println("network id", chainID) // 1
 
 		// 为了读取发送方的地址，我们需要在事务上调用 AsMessage，它返回一个 Message 类型，其中包含一个返回 sender（from）地址的函数
-		// if msg, err := tx.AsMessage(types.NewEIP155Signer(chainID)); err == nil {
+		//if msg, err := tx.AsMessage(types.NewEIP155Signer(chainID)); err == nil {
 		if msg, err := tx.AsMessage(types.LatestSignerForChainID(chainID), nil); err == nil {
 			fmt.Println(msg.From().Hex()) // 0x0fD081e3Bb178dc45c0cb23202069ddA57064258
 		}
