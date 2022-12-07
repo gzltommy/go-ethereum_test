@@ -89,53 +89,6 @@ func main() {
 	time.Sleep(time.Hour)
 }
 
-func UserMedalMintTT(userMedal *UserMedal) error {
-	nodeUrl := ""
-	client, err := ethclient.Dial(nodeUrl)
-	if err != nil {
-		return err
-	}
-
-	chainId := 97
-	nftContract := ""
-	mintContract := ""
-	userAddress := ""
-	mintInstance, err := sl.NewSpaceStation(common.HexToAddress(mintContract), client)
-	if err != nil {
-		return err
-	}
-
-	txList := make([]userMedalTx, 0, 1)
-	defer func() {
-		// mint 接口调用完成的勋章都要处理
-		go waitHandTx(client, txList) // 异步等待处理
-	}()
-
-	//dummyId := uuid.GenerateUUID() // 生成一个唯一数
-	dummyId := int64(123456) // 生成一个唯一数
-	err, txHash := userMedalMint(client, mintInstance, userMedal, dummyId,
-		chainId, nftContract, mintContract, userAddress)
-	if err != nil {
-		return err
-	}
-
-	userMedal.DummyId = dummyId
-	userMedal.MintState = code.UserMedalMintState_Commit
-	userMedal.ChainId = chainId
-	userMedal.Contract = nftContract
-	err = SaveUserMedal(userMedal)
-	if err != nil {
-		return err
-	}
-	txList = append(txList, userMedalTx{
-		NftContract: nftContract,
-		ID:          userMedal.ID,
-		TxHash:      txHash,
-	})
-
-	return nil
-}
-
 const (
 	medalCastPrev = "12e96e37bd2df8abcac12d6016fa4b87f05d9137065ec3af2cf325dee5c29ed9"
 	canTransfer   = true
