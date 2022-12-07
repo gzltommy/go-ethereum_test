@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"crypto/ecdsa"
+	"errors"
 	"fmt"
+	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -11,6 +13,7 @@ import (
 	store "go-ethereum_test/04.smart_contract/02.deploy_contract/contract/store" // 导入包
 	"log"
 	"math/big"
+	"time"
 )
 
 var (
@@ -88,13 +91,20 @@ func main() {
 	// 你可以用事务哈希来在Etherscan上查询合约的部署状态 https://goerli.etherscan.io/tx/0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
 
 	// 每个事务都有一个收据，其中包含执行事务的结果，例如任何返回值和日志，以及为“1”（成功）或“0”（失败）的事件结果状态。
+
+Retry:
 	receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())
 	if err != nil {
+		// TIPS:注意：收据不是马上就能查到
+		if errors.Is(err, ethereum.NotFound) {
+			time.Sleep(time.Second)
+			goto Retry
+		}
 		log.Fatal(err)
+	} else {
+		fmt.Println(receipt.Status) // 1
+		fmt.Println(receipt.Logs)   // ...
 	}
-
-	fmt.Println(receipt.Status) // 1
-	fmt.Println(receipt.Logs)   // ...
 
 	result, err := instance.Items(nil, key)
 	if err != nil {
