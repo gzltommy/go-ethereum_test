@@ -87,6 +87,15 @@ func main() {
 	fmt.Printf("tx sent: %s", tx.Hash().Hex()) // tx sent: 0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
 	// 你可以用事务哈希来在Etherscan上查询合约的部署状态 https://goerli.etherscan.io/tx/0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
 
+	// 每个事务都有一个收据，其中包含执行事务的结果，例如任何返回值和日志，以及为“1”（成功）或“0”（失败）的事件结果状态。
+	receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(receipt.Status) // 1
+	fmt.Println(receipt.Logs)   // ...
+
 	result, err := instance.Items(nil, key)
 	if err != nil {
 		log.Fatal(err)
