@@ -15,6 +15,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// 根据私钥获取公钥
 	privateKeyBytes := crypto.FromECDSA(privateKey)
 	fmt.Println(hexutil.Encode(privateKeyBytes)[2:]) // 0x//6cdd2cd6a8f813c33ac0c59a92798da9c0e490e17da96fbb9dc86fd1e77d23e2
 
@@ -30,6 +31,7 @@ func main() {
 	address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
 	fmt.Println(address) // 0x96216849c49358B10257cb55b28eA603c874b05E
 
+	//
 	hash := sha3.NewLegacyKeccak256()
 	hash.Write(publicKeyBytes[1:])
 	fmt.Println(hexutil.Encode(hash.Sum(nil)[12:])) // 0x96216849c49358b10257cb55b28ea603c874b05e
