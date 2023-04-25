@@ -56,10 +56,7 @@ func main() {
 		fmt.Println(vLog.TxHash.Hex())    // 0xa766aa0a9fc5e5e969b2e02182b8f04115de8ccb380913b903f696055a51ef5b
 
 		// 读取日志结构体中的数据信息
-		event := struct {
-			Key   [32]byte
-			Value [32]byte
-		}{}
+		event := store.StoreItemSet{}
 		err := contractAbi.UnpackIntoInterface(
 			&event,    // 接收解码数据变量的指针
 			"ItemSet", // 事件名称

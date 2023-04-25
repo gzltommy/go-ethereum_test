@@ -43,7 +43,7 @@ func IsZeroAddress(iAddress interface{}) bool {
 	return reflect.DeepEqual(addressBytes, zeroAddressBytes)
 }
 
-// ToDecimal 将小数转换为 wei(整数）。第二个参数是小数位数
+// ToDecimal 将 wei（整数）转换为小数。 第二个参数是小数位数。
 func ToDecimal(iValue interface{}, decimals int) decimal.Decimal {
 	value := new(big.Int)
 	switch v := iValue.(type) {
@@ -60,7 +60,7 @@ func ToDecimal(iValue interface{}, decimals int) decimal.Decimal {
 	return result
 }
 
-// ToWei 将 wei（整数）转换为小数。 第二个参数是小数位数。
+// ToWei 将小数转换为 wei(整数）。第二个参数是小数位数
 func ToWei(iAmount interface{}, decimals int) *big.Int {
 	amount := decimal.NewFromFloat(0)
 	switch v := iAmount.(type) {
