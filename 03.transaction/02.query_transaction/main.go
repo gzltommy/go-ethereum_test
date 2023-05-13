@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -59,6 +60,10 @@ func main() {
 		}
 
 		fmt.Println(receipt.Status) // 1
+
+		// 才能够 receipt 中获取 log
+		logs, _ := json.Marshal(receipt.Logs)
+		fmt.Println("--------", string(logs))
 	}
 
 	// 调用 TransactionCount 来了解块中有多少个事务。
