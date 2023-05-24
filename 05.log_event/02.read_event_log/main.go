@@ -33,7 +33,7 @@ func main() {
 		FromBlock: big.NewInt(32085286),
 		ToBlock:   big.NewInt(32085598),
 		Addresses: []common.Address{
-			common.HexToAddress("0x3f6c4f9FDd3AAdfE545D45221477A1F553404Ae5"), // 合约地址
+			common.HexToAddress("0x6eed500a073a0D5935EfE19d005079BA27014C46"), // 合约地址
 		},
 	}
 
