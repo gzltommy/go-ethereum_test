@@ -12,7 +12,7 @@ import (
 func main() {
 	// 注意国内要设置代理才能连接
 	// 拨打启用 websocket 的以太坊客户端
-	client, err := ethclient.Dial("https://scroll-alphanet.blastapi.io/b9810890-43b0-41f4-b9ce-72f9d0af8699")
+	client, err := ethclient.Dial("https://mainnet.era.zksync.io")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -20,8 +20,8 @@ func main() {
 	// 构造一个过滤查询
 	// 指定我们想过滤的区块范围并指定从中读取此日志的合约地址
 	query := ethereum.FilterQuery{
-		FromBlock: big.NewInt(2043125),
-		ToBlock:   big.NewInt(2043129),
+		FromBlock: big.NewInt(3698094), // FIXME:这个区块的日志居然超过了 10000 条，无法正常取回
+		ToBlock:   big.NewInt(3698094),
 	}
 
 	// 查询将返回所有的匹配事件日志，返回的所有日志将是 ABI 编码的
