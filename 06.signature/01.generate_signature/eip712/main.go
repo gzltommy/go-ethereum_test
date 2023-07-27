@@ -70,7 +70,7 @@ func StructSignExample1(privateKey *ecdsa.PrivateKey) {
 		PrimaryType: "Claim",
 	}
 
-	signature, err := SignWithEip721(privateKey, typedData)
+	signature, err := SignWithEip712(privateKey, typedData)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -117,7 +117,7 @@ func StructSignExample2(privateKey *ecdsa.PrivateKey) {
 		PrimaryType: "Mail",
 	}
 
-	signature, err := SignWithEip721(privateKey, typedData)
+	signature, err := SignWithEip712(privateKey, typedData)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -160,14 +160,14 @@ func ArraySignExample(privateKey *ecdsa.PrivateKey) {
 		PrimaryType: "Claim",
 	}
 
-	signature, err := SignWithEip721(privateKey, typedData)
+	signature, err := SignWithEip712(privateKey, typedData)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println(hexutil.Encode(signature))
 }
 
-func SignWithEip721(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData) ([]byte, error) {
+func SignWithEip712(privateKey *ecdsa.PrivateKey, typedData *apitypes.TypedData) ([]byte, error) {
 	if privateKey == nil || typedData == nil {
 		return nil, errors.New("invalid parameter")
 	}
