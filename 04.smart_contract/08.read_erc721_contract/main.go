@@ -29,5 +29,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("balance: %f", bal)
+	fmt.Printf("balance: %v", bal)
 }
