@@ -24,7 +24,7 @@ func main() {
 		log.Fatal(err)
 	}
 	//StructSignExample1(privateKey)
-	StructSignExample2(privateKey)
+	ArraySignExample(privateKey)
 	//ArraySignExample(privateKey)
 
 }
@@ -124,7 +124,6 @@ func StructSignExample2(privateKey *ecdsa.PrivateKey) {
 	fmt.Println(hexutil.Encode(signature))
 }
 
-// TODO:无法运行，截止到 2022-12-2 日网络上并没有解决方案
 func ArraySignExample(privateKey *ecdsa.PrivateKey) {
 	// 请求参数：
 	typedData := &apitypes.TypedData{
@@ -151,8 +150,8 @@ func ArraySignExample(privateKey *ecdsa.PrivateKey) {
 			Salt:              "",
 		},
 		Message: map[string]interface{}{
-			"users":    []string{"0x111da67948Ef5Ed1f82D707B8cd7e3B1DFa87AEa"},
-			"amounts":  []string{"1"},
+			"users":    []interface{}{"0x111da67948Ef5Ed1f82D707B8cd7e3B1DFa87AEa"},
+			"amounts":  []interface{}{math.NewHexOrDecimal256(1)},
 			"user":     "0x9305efA882316e104BF74CfF9685b7e593b316ae",
 			"nonce":    math.NewHexOrDecimal256(1),
 			"deadline": math.NewHexOrDecimal256(100),
