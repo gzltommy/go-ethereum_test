@@ -150,7 +150,7 @@ func ArraySignExample(privateKey *ecdsa.PrivateKey) {
 			Salt:              "",
 		},
 		Message: map[string]interface{}{
-			"users":    []interface{}{"0x111da67948Ef5Ed1f82D707B8cd7e3B1DFa87AEa"},
+			"users":    []interface{}{"0x111da67948Ef5Ed1f82D707B8cd7e3B1DFa87AEa"}, //注意：所有切片类型都要用 []interface{}
 			"amounts":  []interface{}{math.NewHexOrDecimal256(1)},
 			"user":     "0x9305efA882316e104BF74CfF9685b7e593b316ae",
 			"nonce":    math.NewHexOrDecimal256(1),
