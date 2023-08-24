@@ -17,7 +17,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	txHash := common.HexToHash("0xd56ad3ecfa8f5743a4ee3cb905bab7660b487ff474674703673dc1937173b3ef")
+	txHash := common.HexToHash("0xe68204598c692c19e13a60eaf654643a03d4689493797a19a6ecfbedba1eeb4f")
 	receipt, err := client.TransactionReceipt(context.Background(), txHash)
 	if err != nil {
 		log.Fatal(err)
