@@ -14,7 +14,7 @@ import (
 func main() {
 	// 注意国内要设置代理才能连接
 	// 拨打启用 websocket 的以太坊客户端
-	client, err := ethclient.Dial("https://opbnb-testnet-rpc.bnbchain.org/")
+	client, err := ethclient.Dial("https://arb1.arbitrum.io/rpc")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -22,10 +22,10 @@ func main() {
 	// 构造一个过滤查询
 	// 指定我们想过滤的区块范围并指定从中读取此日志的合约地址
 	query := ethereum.FilterQuery{
-		FromBlock: big.NewInt(3551791),
-		ToBlock:   big.NewInt(5913531),
+		FromBlock: big.NewInt(105033747),
+		ToBlock:   big.NewInt(124440584),
 		Addresses: []common.Address{
-			common.HexToAddress("0xcf8d609948d9df91f8719018887a67b4e6360dc8"), // medal_mint
+			common.HexToAddress("0x481a22a95acb664a574dbc959a1d6aec7e245cdd"), // medal_mint
 		},
 		Topics: [][]common.Hash{
 			{
@@ -41,15 +41,14 @@ func main() {
 	}
 
 	bmap := make(map[uint64]struct{}, 100000)
+	s := make([]uint64, 0, len(bmap))
 	for _, eLog := range logs {
 		if _, ok := bmap[eLog.BlockNumber]; !ok {
 			bmap[eLog.BlockNumber] = struct{}{}
+			s = append(s, eLog.BlockNumber)
 		}
 	}
-	s := make([]uint64, 0, len(bmap))
-	for k, _ := range bmap {
-		s = append(s, k)
-	}
+
 	buf, _ := json.Marshal(s)
 	fmt.Println(string(buf))
 }
