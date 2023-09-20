@@ -8,13 +8,12 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
-	"math/big"
 )
 
 func main() {
 	// 注意国内要设置代理才能连接
 	// 拨打启用 websocket 的以太坊客户端
-	client, err := ethclient.Dial("https://arb1.arbitrum.io/rpc")
+	client, err := ethclient.Dial("https://alpha-rpc.scroll.io/l2")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -22,10 +21,10 @@ func main() {
 	// 构造一个过滤查询
 	// 指定我们想过滤的区块范围并指定从中读取此日志的合约地址
 	query := ethereum.FilterQuery{
-		FromBlock: big.NewInt(105033747),
-		ToBlock:   big.NewInt(124440584),
+		//FromBlock: big.NewInt(105033747),
+		//ToBlock:   big.NewInt(124440584),
 		Addresses: []common.Address{
-			common.HexToAddress("0x481a22a95acb664a574dbc959a1d6aec7e245cdd"), // medal_mint
+			common.HexToAddress("0x23acd4c7c736bb97438475f3d5343a5097581129"), // medal_mint
 		},
 		Topics: [][]common.Hash{
 			{
