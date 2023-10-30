@@ -20,17 +20,17 @@ func main() {
 	}
 
 	var (
-		fromBlock = int64(32871288)
+		fromBlock = int64(32851288)
 		endBlock  = int64(32961288)
 		bmap      = make(map[uint64]struct{}, 100000)
 		s         = make([]uint64, 0, len(bmap))
+		step      = int64(2000)
+		toBlock   = fromBlock + step
 	)
 
 	for {
-		toBlock := fromBlock + 50000
-		if toBlock > endBlock {
-			toBlock = endBlock
-		}
+		fmt.Println("--------------------------", fromBlock, toBlock)
+
 		query := ethereum.FilterQuery{
 			FromBlock: big.NewInt(fromBlock), // 开始
 			ToBlock:   big.NewInt(toBlock),   // 结束
@@ -48,6 +48,7 @@ func main() {
 		logs, err := client.FilterLogs(context.Background(), query)
 		if err != nil {
 			log.Fatal(err)
+			break
 		}
 		for _, eLog := range logs {
 			if _, ok := bmap[eLog.BlockNumber]; !ok {
@@ -55,7 +56,13 @@ func main() {
 				s = append(s, eLog.BlockNumber)
 			}
 		}
-		if toBlock >= endBlock {
+
+		fromBlock = toBlock + 1
+		toBlock = toBlock + step
+		if toBlock > endBlock {
+			toBlock = endBlock
+		}
+		if fromBlock > toBlock {
 			break
 		}
 	}
