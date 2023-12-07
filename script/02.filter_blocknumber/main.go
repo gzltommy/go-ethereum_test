@@ -9,6 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
 	"math/big"
+	"os"
 )
 
 func main() {
@@ -18,6 +19,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	scanBlockFile, err := os.Create("need_scan_block.json")
+	if err != nil {
+		panic(err)
+	}
+	defer scanBlockFile.Close()
 
 	var (
 		fromBlock = int64(19750676)
@@ -66,5 +73,6 @@ func main() {
 	}
 
 	buf, _ := json.Marshal(s)
-	fmt.Println(string(buf))
+	n, err := scanBlockFile.Write(buf)
+	fmt.Println("结束：", n, err)
 }
