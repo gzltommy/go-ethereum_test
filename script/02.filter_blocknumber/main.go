@@ -14,14 +14,14 @@ import (
 func main() {
 	// 注意国内要设置代理才能连接
 	// 拨打启用 websocket 的以太坊客户端
-	client, err := ethclient.Dial("https://bsc-mainnet.nodereal.io/v1/987c2644eafa4dbeba8155e0db5ce956")
+	client, err := ethclient.Dial("https://test-rpc.combonetwork.io")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	var (
-		fromBlock = int64(32851288)
-		endBlock  = int64(32961288)
+		fromBlock = int64(19750676)
+		endBlock  = int64(19959476)
 		bmap      = make(map[uint64]struct{}, 100000)
 		s         = make([]uint64, 0, len(bmap))
 		step      = int64(2000)
@@ -29,17 +29,15 @@ func main() {
 	)
 
 	for {
-		fmt.Println("--------------------------", fromBlock, toBlock)
-
 		query := ethereum.FilterQuery{
 			FromBlock: big.NewInt(fromBlock), // 开始
 			ToBlock:   big.NewInt(toBlock),   // 结束
 			Addresses: []common.Address{
-				common.HexToAddress("0xCE0e4e4D2Dc0033cE2dbc35855251F4F3D086D0A"), // medal_mint
+				common.HexToAddress("0xAC1f9Fadc33cC0799Cf7e3051E5f6b28C98966EE"), // medal_mint
 			},
 			Topics: [][]common.Hash{
 				{
-					common.HexToHash("0x32aae95950c2e1f2c1a419165ba01c63c49604db10ee1b95d9960c0f5b9b9fa8"),
+					common.HexToHash("0x2a0cd797412ef7ea19c365def73dc12d3ec05fbe2c714249219e6b2739cce14a"),
 				},
 			},
 		}
