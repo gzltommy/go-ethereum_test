@@ -36,6 +36,76 @@ type LogApproval struct {
 }
 
 func main() {
+	FilterParse()
+}
+
+func FilterParse() {
+	// 注意国内要设置代理才能连接
+	// 初始化以太坊客户端
+	//client, err := ethclient.Dial("https://cloudflare-eth.com")
+	client, err := ethclient.Dial(fmt.Sprintf("%s/%s", baseUrl, apiKey))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// 0x Protocol (ZRX) token address
+	query := ethereum.FilterQuery{
+		FromBlock: big.NewInt(6383820),
+		ToBlock:   big.NewInt(6383840),
+		Addresses: []common.Address{
+			common.HexToAddress("0xe41d2489571d322189246dafa5ebde1f4699f498"),
+		},
+	}
+
+	logs, err := client.FilterLogs(context.Background(), query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	inst, err := token.NewERC20Filterer(common.HexToAddress("0x"), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	logTransferSig := []byte("Transfer(address,address,uint256)")
+	LogApprovalSig := []byte("Approval(address,address,uint256)")
+	logTransferSigHash := crypto.Keccak256Hash(logTransferSig)
+	logApprovalSigHash := crypto.Keccak256Hash(LogApprovalSig)
+
+	for _, vLog := range logs {
+		fmt.Printf("Log Block Number: %d\n", vLog.BlockNumber)
+		fmt.Printf("Log Index: %d\n", vLog.Index)
+
+		switch vLog.Topics[0].Hex() {
+		case logTransferSigHash.Hex():
+			fmt.Printf("Log Name: Transfer\n")
+
+			transferEvent, err := inst.ParseTransfer(vLog)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fmt.Printf("From: %s\n", transferEvent.From.Hex())
+			fmt.Printf("To: %s\n", transferEvent.To.Hex())
+			fmt.Printf("Tokens: %s\n", transferEvent.Tokens.String())
+
+		case logApprovalSigHash.Hex():
+			fmt.Printf("Log Name: Approval\n")
+			approvalEvent, err := inst.ParseApproval(vLog)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fmt.Printf("Token Owner: %s\n", approvalEvent.TokenOwner.Hex())
+			fmt.Printf("Spender: %s\n", approvalEvent.Spender.Hex())
+			fmt.Printf("Tokens: %s\n", approvalEvent.Tokens.String())
+		}
+
+		fmt.Printf("\n\n")
+	}
+}
+
+func ABIParse() {
 	// 注意国内要设置代理才能连接
 	// 初始化以太坊客户端
 	//client, err := ethclient.Dial("https://cloudflare-eth.com")

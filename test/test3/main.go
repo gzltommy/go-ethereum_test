@@ -24,7 +24,6 @@ var cs = []string{
 	"0xf05405f0f10cEA70Ae2aa7BD799f2eB59a3b871e",
 	"0x481a22A95ACb664A574dBc959a1D6aEc7E245Cdd",
 	"0x23acd4c7c736bb97438475f3d5343a5097581129",
-	// todo:外加 imo 中的合约地址
 }
 
 func main() {
