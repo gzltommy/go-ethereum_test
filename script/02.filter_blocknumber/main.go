@@ -40,11 +40,11 @@ func main() {
 			FromBlock: big.NewInt(fromBlock), // 开始
 			ToBlock:   big.NewInt(toBlock),   // 结束
 			Addresses: []common.Address{
-				common.HexToAddress("0xAC1f9Fadc33cC0799Cf7e3051E5f6b28C98966EE"), // medal_mint
+				common.HexToAddress("0xAC1f9Fadc33cC0799Cf7e3051E5f6b28C98966EE"), // 合约
 			},
 			Topics: [][]common.Hash{
 				{
-					common.HexToHash("0x2a0cd797412ef7ea19c365def73dc12d3ec05fbe2c714249219e6b2739cce14a"),
+					common.HexToHash("0x2a0cd797412ef7ea19c365def73dc12d3ec05fbe2c714249219e6b2739cce14a"), // event
 				},
 			},
 		}
