@@ -15,7 +15,7 @@ import (
 func main() {
 	// 注意国内要设置代理才能连接
 	// 拨打启用 websocket 的以太坊客户端
-	client, err := ethclient.Dial("https://test-rpc.combonetwork.io")
+	client, err := ethclient.Dial("https://arbitrum.llamarpc.com")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,8 +27,8 @@ func main() {
 	defer scanBlockFile.Close()
 
 	var (
-		fromBlock = int64(19750676)
-		endBlock  = int64(19959476)
+		fromBlock = int64(157680316)
+		endBlock  = int64(157701916)
 		bmap      = make(map[uint64]struct{}, 100000)
 		s         = make([]uint64, 0, len(bmap))
 		step      = int64(2000)
