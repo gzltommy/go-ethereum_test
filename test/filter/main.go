@@ -12,13 +12,12 @@ import (
 )
 
 func main() {
-	client, err := ethclient.Dial("https://mainnet.era.zksync.io")
-	//client, err := ethclient.Dial("https://zksync-era.blockpi.network/v1/rpc/public")
+	client, err := ethclient.Dial("https://bsc-mainnet.nodereal.io/v1/987c2644eafa4dbeba8155e0db5ce956")
 	if err != nil {
 		fmt.Printf("Dial fail.err:%v", err)
 		return
 	}
-	transaction, isPending, err := client.TransactionByHash(context.Background(), common.HexToHash("0x1c5055142cfaf9c651923fda213510a3af513db8b239a28002ac26214bbc7504"))
+	transaction, isPending, err := client.TransactionByHash(context.Background(), common.HexToHash("0x13be57d4511a56b3cf16379d3518bff1f3285b3c70aebf0ada72a47adbd647e4"))
 	if err != nil {
 		fmt.Printf("TransactionReceipt fail.err:%v", err)
 		return
