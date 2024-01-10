@@ -71,6 +71,7 @@ func main() {
 	*/
 	toAddress := common.HexToAddress("0x4bDA26282Cd8D7E5B5253e339d9E7906B039b2e6")
 	var data []byte
+
 	//tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, data)
 	tx := types.NewTx(&types.LegacyTx{
 		Nonce:    nonce,

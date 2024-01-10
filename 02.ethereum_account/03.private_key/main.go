@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"io/ioutil"
 	"log"
 	"os"
 )
@@ -26,7 +25,7 @@ func createKs() {
 func importKs() {
 	file := "./tmp/UTC--2018-07-04T09-58-30.122808598Z--20f8d42fb0f667f2e53930fed426f225752453b3"
 	ks := keystore.NewKeyStore("./tmp", keystore.StandardScryptN, keystore.StandardScryptP)
-	jsonBytes, err := ioutil.ReadFile(file)
+	jsonBytes, err := os.ReadFile(file)
 	if err != nil {
 		log.Fatal(err)
 	}
