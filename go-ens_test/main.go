@@ -47,6 +47,8 @@ func main() {
 		}
 	}
 
+	return
+
 	// 创建子名称
 	{
 		// 创建一个有配置密匙的交易发送器（Transactor）
