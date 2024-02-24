@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/ethereum/go-ethereum/core/types"
 	"log"
 	"math/big"
 
@@ -47,12 +48,12 @@ func main() {
 		//}
 
 		// 最新
-		//signer := types.MakeSigner(params.MainnetChainConfig, block.Number(), block.Time())
-		//from, err := signer.Sender(tx)
-		//if err != nil {
-		//	log.Fatal("获取交易的发送者失败:", err)
-		//}
-		//fmt.Println("交易的发送者是:", from.Hex())
+		signer := types.LatestSignerForChainID(chainID)
+		from, err := signer.Sender(tx)
+		if err != nil {
+			log.Fatal("获取交易的发送者失败:", err)
+		}
+		fmt.Println("交易的发送者是:", from.Hex())
 
 		// 每个事务都有一个收据，其中包含执行事务的结果，例如任何返回值和日志，以及为“1”（成功）或“0”（失败）的事件结果状态。
 		receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())

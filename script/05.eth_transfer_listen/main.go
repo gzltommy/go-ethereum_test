@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -12,18 +11,13 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-var (
-	netWork   = "mainnet"
-	projectID = "b2c8412b5acc4138a27f524ee4d6d18f"
-)
-
 func main() {
-	client, err := ethclient.Dial(fmt.Sprintf("https://%s.infura.io/v3/%s", netWork, projectID))
+	client, err := ethclient.Dial("https://bsc-mainnet.nodereal.io/v1/987c2644eafa4dbeba8155e0db5ce956")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	blockNumber := big.NewInt(5671744)
+	blockNumber := big.NewInt(30037429)
 	block, err := client.BlockByNumber(context.Background(), blockNumber)
 	if err != nil {
 		log.Fatal(err)
@@ -31,13 +25,13 @@ func main() {
 
 	// 通过调用 Transactions 方法来读取块中的事务，该方法返回一个 Transaction 类型的列表
 	for _, tx := range block.Transactions() {
-		fmt.Println(tx.Hash().Hex())        // 0x5d49fcaa394c97ec8a9c3e7bd9e8388d420fb050a52083ca52ff24b3b65bc9c2
-		fmt.Println(tx.Value().String())    // 10000000000000000
-		fmt.Println(tx.Gas())               // 105000
-		fmt.Println(tx.GasPrice().Uint64()) // 102000000000
-		fmt.Println(tx.Nonce())             // 110644
-		fmt.Println(tx.Data())              // []
-		fmt.Println(tx.To().Hex())          // 0x55fE59D8Ad77035154dDd0AD0388D09Dd4047A8e
+		fmt.Println("----------------------------------------------------")
+
+		fmt.Println("Type():", tx.Type())            //
+		fmt.Println("Hash():", tx.Hash().Hex())      // 0x5d49fcaa394c97ec8a9c3e7bd9e8388d420fb050a52083ca52ff24b3b65bc9c2
+		fmt.Println("Value():", tx.Value().String()) // 10000000000000000
+		fmt.Println("Data():", tx.Data())            // []
+		fmt.Println("To():", tx.To().Hex())          // 0x55fE59D8Ad77035154dDd0AD0388D09Dd4047A8e
 
 		// 我们从客户端拿到链ID
 		chainID, err := client.NetworkID(context.Background())
@@ -61,17 +55,17 @@ func main() {
 		}
 		fmt.Println("交易的发送者是:", from.Hex())
 
-		// 每个事务都有一个收据，其中包含执行事务的结果，例如任何返回值和日志，以及为“1”（成功）或“0”（失败）的事件结果状态。
-		receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println(receipt.Status) // 1
-
-		// 才能够 receipt 中获取 log
-		logs, _ := json.Marshal(receipt.Logs)
-		fmt.Println("--------", string(logs))
+		//// 每个事务都有一个收据，其中包含执行事务的结果，例如任何返回值和日志，以及为“1”（成功）或“0”（失败）的事件结果状态。
+		//receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
+		//
+		//fmt.Println(receipt.Status) // 1
+		//
+		//// 才能够 receipt 中获取 log
+		//logs, _ := json.Marshal(receipt.Logs)
+		//fmt.Println("--------", string(logs))
 	}
 
 	// 调用 TransactionCount 来了解块中有多少个事务。
