@@ -27,7 +27,6 @@ func main() {
 	for _, tx := range block.Transactions() {
 		fmt.Println("----------------------------------------------------")
 
-		fmt.Println("Type():", tx.Type())            //
 		fmt.Println("Hash():", tx.Hash().Hex())      // 0x5d49fcaa394c97ec8a9c3e7bd9e8388d420fb050a52083ca52ff24b3b65bc9c2
 		fmt.Println("Value():", tx.Value().String()) // 10000000000000000
 		fmt.Println("Data():", tx.Data())            // []

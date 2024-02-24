@@ -71,7 +71,7 @@ func main() {
 		logs, err := client.FilterLogs(context.Background(), query)
 		if err != nil {
 			log.Fatal(err)
-			break
+			return
 		}
 		for _, eLog := range logs {
 			if _, ok := bmap[eLog.BlockNumber]; !ok {
