@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/ethereum/go-ethereum/core/types"
 	"log"
 	"math/big"
 
@@ -42,10 +41,18 @@ func main() {
 		fmt.Println("network id", chainID) // 1
 
 		// 为了读取发送方的地址，我们需要在事务上调用 AsMessage，它返回一个 Message 类型，其中包含一个返回 sender（from）地址的函数
-		//if msg, err := tx.AsMessage(types.NewEIP155Signer(chainID)); err == nil {
-		if msg, err := tx.AsMessage(types.LatestSignerForChainID(chainID), nil); err == nil {
-			fmt.Println(msg.From().Hex()) // 0x0fD081e3Bb178dc45c0cb23202069ddA57064258
-		}
+		////if msg, err := tx.AsMessage(types.NewEIP155Signer(chainID)); err == nil {
+		//if msg, err := tx.AsMessage(types.LatestSignerForChainID(chainID), nil); err == nil {
+		//	fmt.Println(msg.From().Hex()) // 0x0fD081e3Bb178dc45c0cb23202069ddA57064258
+		//}
+
+		// 最新
+		//signer := types.MakeSigner(params.MainnetChainConfig, block.Number(), block.Time())
+		//from, err := signer.Sender(tx)
+		//if err != nil {
+		//	log.Fatal("获取交易的发送者失败:", err)
+		//}
+		//fmt.Println("交易的发送者是:", from.Hex())
 
 		// 每个事务都有一个收据，其中包含执行事务的结果，例如任何返回值和日志，以及为“1”（成功）或“0”（失败）的事件结果状态。
 		receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())
