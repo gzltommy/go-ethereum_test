@@ -3,6 +3,9 @@
 package util
 
 import (
+	"context"
+	"github.com/ethereum/go-ethereum/ethclient"
+	"log"
 	"math/big"
 	"reflect"
 	"regexp"
@@ -113,4 +116,12 @@ func SigRSV(iSig interface{}) ([32]byte, [32]byte, uint8) {
 	V := uint8(vI + 27)
 
 	return R, S, V
+}
+
+func IsContractAddress(client *ethclient.Client, address string) bool {
+	bytecode, err := client.CodeAt(context.Background(), common.HexToAddress(address), nil) // nil is latest block
+	if err != nil {
+		log.Fatal(err)
+	}
+	return len(bytecode) > 0
 }
