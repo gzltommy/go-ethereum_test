@@ -73,6 +73,14 @@ func GetBlockByBlockNumber(ctx context.Context, client *ethclient.Client, blockN
 	for _, b := range body.Transactions {
 		txList = append(txList, convertToTransaction(b))
 	}
+
+	if len(body.Number) < 2 {
+		return nil, fmt.Errorf("block number lost(%s).blockNumber:%v", body.Number, blockNumber)
+	}
+	if len(body.Timestamp) < 2 {
+		return nil, fmt.Errorf("block time lost(%s).blockNumber:%v", body.Timestamp, blockNumber)
+	}
+
 	number, _ := big.NewInt(0).SetString(body.Number[2:], 16)
 	blockTime, _ := big.NewInt(0).SetString(body.Timestamp[2:], 16)
 	resultBlock.BlockNumber = number.Int64()
