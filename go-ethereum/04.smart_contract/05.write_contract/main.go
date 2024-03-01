@@ -10,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
-	store "go-ethereum_test/04.smart_contract/02.deploy_contract/contract/store" // 导入包
+	store "go-ethereum_test/go-ethereum/04.smart_contract/02.deploy_contract/contract/store"
 	"log"
 	"math/big"
 	"time"

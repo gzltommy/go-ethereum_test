@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
-	store "go-ethereum_test/05.log_event/02.read_event_log/contract"
+	store "go-ethereum_test/go-ethereum/05.log_event/02.read_event_log/contract"
 	"log"
 	"math/big"
 	"strings"

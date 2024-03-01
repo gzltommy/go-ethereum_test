@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
-	token "go-ethereum_test/05.log_event/03.read_erc20_event_log/contract"
+	token "go-ethereum_test/go-ethereum/05.log_event/03.read_erc20_event_log/contract"
 	"log"
 	"math/big"
 	"strings"

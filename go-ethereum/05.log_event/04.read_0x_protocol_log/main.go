@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/ethclient"
-	exchange "go-ethereum_test/05.log_event/04.read_0x_protocol_log/contract"
+	exchange "go-ethereum_test/go-ethereum/05.log_event/04.read_0x_protocol_log/contract"
 	"log"
 	"math/big"
 	"strconv"

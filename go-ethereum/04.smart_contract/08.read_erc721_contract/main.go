@@ -5,7 +5,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	token "go-ethereum_test/04.smart_contract/08.read_erc721_contract/erc721_contract/Erc721"
+	token "go-ethereum_test/go-ethereum/04.smart_contract/08.read_erc721_contract/erc721_contract/Erc721"
 	"log"
 )
 
