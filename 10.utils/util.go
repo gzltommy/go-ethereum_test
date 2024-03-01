@@ -119,7 +119,7 @@ func SigRSV(iSig interface{}) ([32]byte, [32]byte, uint8) {
 }
 
 func IsContractAddress(client *ethclient.Client, address string) bool {
-	bytecode, err := client.CodeAt(context.Background(), common.HexToAddress(address), nil) // nil is latest block
+	bytecode, err := client.CodeAt(context.Background(), common.HexToAddress(address), nil) // nil is latest Block
 	if err != nil {
 		log.Fatal(err)
 	}
