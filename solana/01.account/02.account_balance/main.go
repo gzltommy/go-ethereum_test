@@ -9,8 +9,6 @@ import (
 	"github.com/blocto/solana-go-sdk/rpc"
 )
 
-// 9rRGsvpDNPfwpBWfnfQXxqkj6Ch2CLuDf1MV17rciEAU
-
 func main() {
 	//c := client.NewClient(rpc.MainnetRPCEndpoint)
 	c := client.NewClient(rpc.DevnetRPCEndpoint)
