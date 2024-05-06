@@ -26,10 +26,8 @@ func main() {
 		1e9,                         // amount of SOL in lamport
 	)
 	/*
-		RequestAirdrop() 函数接受以lamport为单位的amount 参数，这是SOL的最小分数单位，类似于比特币的Satoshi。
-
-		1 lamport ~ 0.000000001 SOL。
-
+		RequestAirdrop() 函数接受以 lamport 为单位的 amount 参数，这是 SOL 的最小分数单位，类似于比特币的 Satoshi
+		1 lamport ~ 0.000000001 SOL
 	*/
 
 	// check for errors

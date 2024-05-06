@@ -23,6 +23,8 @@ func main() {
 	}
 	fmt.Printf("balance: %v\n", balance)
 
+	/*---------------------------------------------------下面一般不用---------------------------------------------------*/
+
 	// get balance with sepcific commitment
 	balance, err = c.GetBalanceWithConfig(
 		context.TODO(),
