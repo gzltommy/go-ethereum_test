@@ -20,8 +20,8 @@ func main() {
 		fmt.Println("-3-", err)
 		return
 	}
+
 	fmt.Println("--time:", block.BlockTime)
 	fmt.Printf("--bnum:%v\n", blockNumber)
-
 	return
 }

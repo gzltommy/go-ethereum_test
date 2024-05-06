@@ -14,7 +14,8 @@ var (
 
 func main() {
 	// https://mainnet.infura.io/v3/YOUR-PROJECT
-	client, err := ethclient.Dial(fmt.Sprintf("https://%s.infura.io/v3/%s", netWork, projectID))
+	// https://sepolia.infura.io/v3/
+	client, err := ethclient.Dial(fmt.Sprintf("https://%s.sepolia.infura.io/v3/%s", netWork, projectID))
 	if err != nil {
 		log.Fatal(err)
 	}
