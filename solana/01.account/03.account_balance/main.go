@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	//c := client.NewClient(rpc.MainnetRPCEndpoint)
+	// create a RPC client
 	c := client.NewClient(rpc.DevnetRPCEndpoint)
 
 	// get balance
