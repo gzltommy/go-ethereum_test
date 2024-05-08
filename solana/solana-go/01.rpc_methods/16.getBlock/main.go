@@ -22,7 +22,7 @@ func main() {
 	}
 
 	{ // deprecated and is going to be removed in solana-core v1.8
-		out, err := client.GetConfirmedBlock(
+		out, err := client.GetBlock(
 			context.TODO(),
 			uint64(example.Context.Slot),
 		)
@@ -33,11 +33,11 @@ func main() {
 	}
 	{
 		slot := uint64(example.Context.Slot)
-		out, err := client.GetConfirmedBlockWithOpts(
+		out, err := client.GetBlockWithOpts(
 			context.TODO(),
 			slot,
 			// You can specify more options here:
-			&rpc.GetConfirmedBlockOpts{
+			&rpc.GetBlockOpts{
 				Encoding:   solana.EncodingBase64,
 				Commitment: rpc.CommitmentFinalized,
 				// Get only signatures:
